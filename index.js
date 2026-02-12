@@ -88,7 +88,9 @@ async function generateVideoFromImage(imagePath, prompt, outputPath) {
 async function simulateProgress(label, steps) {
     for (let i = 0; i <= steps; i++) {
         const percent = Math.round((i / steps) * 100);
-        const bar = '█'.repeat(Math.floor(i / 2)) + '░'.repeat(10 - Math.floor(i / 2));
+        const barWidth = 10;
+        const filledWidth = Math.min(barWidth, Math.floor((i / steps) * barWidth));
+        const bar = '█'.repeat(filledWidth) + '░'.repeat(Math.max(0, barWidth - filledWidth));
         process.stdout.write(`\r${label} [${bar}] ${percent}%`);
         await new Promise(r => setTimeout(r, 80));
     }
